@@ -4,6 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
+const requestStorageKey = "hh-baits-interest-requests";
+
+type InterestRequest = {
+  id: string;
+  name: string;
+  contact: string;
+  question: string;
+  createdAt: string;
+};
+
 const flecks = [
   [9, 48, 7, "gold"], [15, 38, 4, "red"], [20, 57, 6, "gold"],
   [26, 45, 5, "gold"], [31, 35, 3, "red"], [36, 53, 7, "gold"],
@@ -54,6 +64,23 @@ export default function Home() {
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const request: InterestRequest = {
+      id: crypto.randomUUID(),
+      name: String(data.get("name") || ""),
+      contact: String(data.get("contact") || ""),
+      question: String(data.get("question") || ""),
+      createdAt: new Date().toISOString(),
+    };
+    let previous: InterestRequest[] = [];
+    try {
+      previous = JSON.parse(localStorage.getItem(requestStorageKey) || "[]");
+    } catch {
+      previous = [];
+    }
+    localStorage.setItem(requestStorageKey, JSON.stringify([request, ...previous]));
+    form.reset();
     setSent(true);
   }
 
@@ -64,11 +91,11 @@ export default function Home() {
         <div className="hero-copy">
           <div className="wordmark">H&amp;H BAITS</div>
           <div className="hero-text">
-            <p className="eyebrow">THE FIRST ONLINE LOOK</p>
-            <h1><span>SOFT</span><span>BAITS.</span><span>FIRST LOOK.</span></h1>
-            <p className="hero-sub">Explore H&amp;H Baits and ask about the first online collection.</p>
-            <a className="primary-button" href="#baits">SEE THE BAIT <span aria-hidden="true">↓</span></a>
-            <p className="trust"><span /> Real H&amp;H bait photograph</p>
+            <p className="eyebrow">HAND POURED SOFT FISHING BAITS</p>
+            <h1><span>GREEN</span><span>PUMPKIN.</span><span>GOLD + RED.</span></h1>
+            <p className="hero-sub">A close look at H&amp;H stick worms with gold and red flake.</p>
+            <a className="primary-button" href="#baits">SEE THE STICK WORMS <span aria-hidden="true">↓</span></a>
+            <p className="trust"><span /> Real H&amp;H product photo</p>
           </div>
         </div>
         <div className="hero-image">
@@ -79,7 +106,7 @@ export default function Home() {
             priority
             sizes="(max-width: 700px) 100vw, 54vw"
           />
-          <div className="image-label"><span>01</span> CLIENT PHOTO</div>
+          <div className="image-label"><span>01</span> GOLD + RED FLAKE</div>
         </div>
         <div className="field-wrap"><FlakeField mode={mode} /></div>
       </header>
@@ -97,52 +124,52 @@ export default function Home() {
         </div>
         <div className="section-copy">
           <p className="eyebrow dark">SOFT FISHING BAITS</p>
-          <h2>THE BAIT<br />COMES FIRST.</h2>
-          <p>This is the real H&amp;H bait photograph. The online collection is still taking shape, so this demo shows the work without inventing a catalog.</p>
-          <a href="#interest" className="text-link">ASK ABOUT THE COLLECTION <span>↘</span></a>
+          <h2>GREEN<br />PUMPKIN.</h2>
+          <p>H&amp;H hand pours these stick worms in green pumpkin with gold and red flake. Ask what is available now.</p>
+          <a href="#interest" className="text-link">ASK ABOUT AVAILABILITY <span>↘</span></a>
         </div>
       </section>
 
       <section className="merch-section" id="merchandise">
         <div className="merch-copy">
           <p className="eyebrow">MERCHANDISE</p>
-          <h2>A SECOND<br />WAY IN.</h2>
-          <p>The client supplied this Catch Ya Later shirt as a merchandise example. Its artwork is not presented as the H&amp;H Baits logo.</p>
+          <h2>CATCH YA<br />LATER.</h2>
+          <p>Fishing merchandise sits beside the soft bait lineup, including this yellow Catch Ya Later tee.</p>
         </div>
         <div className="shirt-card">
           <div className="shirt-photo frame-photo">
             <Image src="/images/hh-baits-client-shirt.jpg" alt="Client supplied yellow Catch Ya Later fishing shirt" fill sizes="(max-width: 800px) 84vw, 34vw" />
           </div>
-          <div className="card-caption"><span>CLIENT PHOTO 02</span><span>MERCHANDISE EXAMPLE</span></div>
+          <div className="card-caption"><span>FISHING MERCHANDISE</span><span>CATCH YA LATER TEE</span></div>
         </div>
         <div className="shirt-field"><FlakeField mode="shirt" /></div>
       </section>
 
       <section className="store-note">
         <p className="eyebrow dark">FIRST ONLINE STORE</p>
-        <p className="statement">H&amp;H Baits does not sell through a website yet. This demo starts with a real product view and a simple question, not a pretend checkout.</p>
+        <p className="statement">H&amp;H Baits is preparing its first online store for soft baits and fishing merchandise.</p>
       </section>
 
       <section className="interest-section" id="interest">
         <div>
-          <p className="eyebrow">INTEREST FORM</p>
-          <h2>WHAT DO YOU<br />WANT TO KNOW?</h2>
-          <p className="form-intro">Ask about the first online collection. H&amp;H can follow up personally.</p>
+          <p className="eyebrow">ASK H&amp;H</p>
+          <h2>WHAT ARE YOU<br />LOOKING FOR?</h2>
+          <p className="form-intro">Ask about stick worms, merchandise, or current availability.</p>
         </div>
         {sent ? (
           <div className="form-success" role="status">
             <span>✓</span>
-            <h3>Sample request received.</h3>
-            <p>This demo keeps the interaction on this device. Nothing was sent.</p>
-            <button onClick={() => setSent(false)}>START AGAIN</button>
+            <h3>Request saved.</h3>
+            <p>Saved in this preview on this device. H&amp;H has not received it.</p>
+            <button onClick={() => setSent(false)}>SAVE ANOTHER</button>
           </div>
         ) : (
           <form onSubmit={submit}>
             <label>Name<input name="name" required autoComplete="name" /></label>
             <label>Phone or email<input name="contact" required /></label>
-            <label>Your question<textarea name="question" required rows={4} /></label>
-            <button className="submit-button" type="submit">SEND A SAMPLE REQUEST <span>↗</span></button>
-            <p className="demo-note">Demo only. This form does not send or store data.</p>
+            <label>What are you looking for?<textarea name="question" required rows={4} /></label>
+            <button className="submit-button" type="submit">SAVE REQUEST <span>↗</span></button>
+            <p className="demo-note">This preview saves requests on this device so you can review the flow in the admin.</p>
           </form>
         )}
       </section>
