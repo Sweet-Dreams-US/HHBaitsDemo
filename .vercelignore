@@ -1,0 +1,11 @@
+finish
+.sdbuild
+client-media
+BRIEF.md
+CHANGES.md
+DIRECTION.md
+INDUSTRY.md
+PAST-DEMOS.md
+PROMPT.md
+FINISH.json
+.env.local
