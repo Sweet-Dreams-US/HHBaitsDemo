@@ -166,12 +166,20 @@ export default function Film({ topRow }: { topRow?: ReactNode }) {
         const r = cover(hand);
         const cx = r.x + r.w * BAIT_POINT.x;
         const cy = r.y + r.h * BAIT_POINT.y;
-        const maxR = Math.hypot(Math.max(cx, W - cx), Math.max(cy, H - cy)) * 1.05;
+        // A porthole around the bait, not the whole stage, so the page keeps its air.
+        const maxR = Math.min(W, H) * 0.36;
         ctx!.save();
         ctx!.beginPath();
-        ctx!.ellipse(cx, cy, maxR * reveal, maxR * reveal * 0.9, 0, 0, Math.PI * 2);
+        ctx!.ellipse(cx, cy, maxR * reveal, maxR * reveal, 0, 0, Math.PI * 2);
         ctx!.clip();
         ctx!.drawImage(hand, r.x, r.y, r.w, r.h);
+        ctx!.restore();
+        ctx!.save();
+        ctx!.beginPath();
+        ctx!.ellipse(cx, cy, maxR * reveal, maxR * reveal, 0, 0, Math.PI * 2);
+        ctx!.lineWidth = 6;
+        ctx!.strokeStyle = "#dfe5ee";
+        ctx!.stroke();
         ctx!.restore();
       }
 

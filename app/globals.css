@@ -118,14 +118,14 @@ section { padding: 56px 0; }
 .tub-name { margin-top: 10px; font-size: 13px; line-height: 1.35; font-weight: 500; }
 .tub.real .tub-name { font-weight: 700; }
 
-.strips { display: grid; }
-.strip { position: relative; display: grid; border-top: 1px solid var(--line); }
-.strip-photo { position: relative; height: 62vw; max-height: 520px; background: var(--mould); }
+.strips { display: grid; gap: 40px; padding: 0 16px 56px; }
+.strip { position: relative; display: grid; }
+.strip-photo { position: relative; height: 56vw; max-height: 380px; background: var(--mould); }
 .strip-photo img { object-fit: cover; }
-.strip.ghost .strip-photo { height: 36vw; max-height: 240px; background: repeating-linear-gradient(135deg, var(--mould) 0 10px, var(--tub) 10px 22px); }
+.strip.ghost .strip-photo { height: 30vw; max-height: 200px; background: repeating-linear-gradient(135deg, var(--mould) 0 10px, var(--tub) 10px 22px); }
 .strip-name {
-  position: relative; z-index: 2; margin: -0.42em 0 0; padding: 0 16px;
-  font-family: var(--font-display); font-size: clamp(38px, 11vw, 120px); line-height: 1; color: var(--ink);
+  position: relative; z-index: 2; margin: -0.42em 0 0; padding: 0 0 0 12px;
+  font-family: var(--font-display); font-size: clamp(34px, 9vw, 84px); line-height: 1; color: var(--ink);
   text-shadow: 0 0 0 var(--tub), 2px 2px 0 var(--tub);
   -webkit-text-stroke: 3px var(--tub); paint-order: stroke fill;
 }
@@ -133,7 +133,7 @@ section { padding: 56px 0; }
 .strip-name span::after { content: ""; display: block; }
 .strip.ghost .strip-name { -webkit-text-stroke: 0; text-shadow: none; }
 .strip.ghost .strip-name .slot { font-size: 0.5em; line-height: 1.3; }
-.strip-meta { display: grid; gap: 10px; padding: 10px 16px 40px; align-items: start; }
+.strip-meta { display: grid; gap: 10px; padding: 10px 0 0 12px; align-items: start; }
 .strip-meta p { font-size: 16px; }
 .strip-price { font-weight: 700; }
 .add { justify-self: start; min-height: 48px; padding: 0 20px; border: 1.5px solid var(--ink); border-radius: 0; background: transparent; font-weight: 700; cursor: pointer; }
@@ -179,10 +179,10 @@ input:focus, textarea:focus, select:focus { border-color: var(--plastic-2); box-
 .slip .done .link, .slip .done .index { color: var(--gold); }
 
 /* Shirts: one strip */
-.shirts { position: relative; padding: 0; background: var(--tub-blue); }
-.shirt-photo { position: relative; height: 90vw; max-height: 560px; }
+.shirts { position: relative; padding: 56px 16px; background: var(--tub-blue); display: grid; gap: 24px; }
+.shirt-photo { position: relative; height: 70vw; max-height: 420px; max-width: 420px; }
 .shirt-photo img { object-fit: cover; object-position: center 38%; }
-.shirt-copy { display: grid; gap: 10px; padding: 24px 16px 48px; }
+.shirt-copy { display: grid; gap: 10px; }
 .shirt-quote { font-family: var(--font-display); font-size: clamp(22px, 5.4vw, 40px); line-height: 1.08; max-width: 22ch; }
 
 /* Footer with questions */
@@ -286,15 +286,20 @@ footer nav a { display: inline-flex; align-items: center; min-height: 44px; font
   .beat-two { top: 84px; }
   .scroll-hint { right: 28px; bottom: 22px; }
   .tubs { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 20px; padding: 0 40px 56px; }
-  .strip { grid-template-columns: 1fr; }
-  .strip-photo { height: 46vw; max-height: 560px; }
-  .strip-name { padding: 0 40px; margin-top: -0.5em; }
-  .strip-meta { grid-template-columns: 1fr auto auto; gap: 24px; align-items: center; padding: 14px 40px 56px; }
+  .strips { gap: 72px; padding: 0 40px 96px; }
+  .strip { grid-template-columns: 7fr 5fr; column-gap: 40px; align-items: end; }
+  .strip:nth-child(even) .strip-photo { grid-column: 2; }
+  .strip:nth-child(even) .strip-name, .strip:nth-child(even) .strip-meta { grid-column: 1; grid-row: 1; align-self: end; }
+  .strip:nth-child(even) .strip-name { margin: 0; padding: 0; }
+  .strip-photo { grid-column: 1; grid-row: 1; height: 32vw; max-height: 440px; }
+  .strip-name { grid-column: 1; grid-row: 2; padding: 0 0 0 24px; margin-top: -0.5em; }
+  .strip-meta { grid-column: 2; grid-row: 2; gap: 12px; padding: 0; align-content: end; }
+  .strip:nth-child(even) .strip-meta { grid-row: 2; grid-column: 1; padding: 0; }
+  .strip.ghost .strip-photo { height: 18vw; max-height: 200px; }
   .slip-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; padding: 0 40px; }
   .slip-paper { padding: 28px 28px 34px; }
-  .shirts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
-  .shirt-photo { height: 60vw; max-height: 640px; }
-  .shirt-copy { padding: 40px; }
+  .shirts { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; gap: 56px; padding: 96px 40px; }
+  .shirt-photo { height: 34vw; max-height: 460px; max-width: none; }
   footer { padding: 64px 40px 56px; }
   .foot-row { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 64px; justify-content: space-between; }
   .admin-shell { grid-template-columns: 240px 1fr; min-height: calc(100svh - var(--bar)); }
@@ -311,11 +316,10 @@ footer nav a { display: inline-flex; align-items: center; min-height: 44px; font
   section { padding: 96px 0; }
   .section-head { padding: 0 64px 40px; }
   .tubs { padding: 0 64px 72px; gap: 28px; }
-  .strip-photo { height: 40vw; max-height: 600px; }
-  .strip-name { padding: 0 64px; }
-  .strip-meta { padding: 16px 64px 64px; }
+  .strips { padding: 0 64px 120px; gap: 96px; }
+  .strip-photo { height: 30vw; max-height: 460px; }
   .slip-body { padding: 0 64px; gap: 80px; }
-  .shirt-copy { padding: 64px; }
+  .shirts { padding: 120px 64px; }
   footer { padding: 72px 64px 64px; }
   .admin-main { padding: 48px 64px 96px; max-width: 1100px; }
 }

@@ -37,6 +37,8 @@ Four blocks, all in the admin panel: three sample orders and one sample contact,
 
 Fonts swapped for faces with character (slab, mono, marker). Every sentence of ours that named the owner or explained the idea was cut, the page now carries her two quotes, section names and slot markers. The back half was rebuilt away from cards and columns: tubs from above, full bleed photo strips with the shape name overlapping the photograph, a packing slip for checkout, one shirt strip, questions in the footer.
 
+Second look: the media was too large. The hand reveal is now a porthole instead of the whole stage, the shape photographs are inset at about half width and alternate sides with tub white around them, and the shirt is inset. Every photograph now has air around it.
+
 ## Unsure about
 
 - The three shapes are described from what is visible in her photographs (stick worm, ribbon tail worm, creature bait). They are descriptions, not her product names. If she calls them something else the admin panel renames them in a minute.

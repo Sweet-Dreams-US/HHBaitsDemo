@@ -37,10 +37,10 @@ Scale: h2 clamp(44px, 9vw, 96px), shape names clamp(38px, 11vw, 120px), beat quo
 1. Demo bar. States it is a Sweet Dreams demo and links to the admin panel.
 2. The film, four beats on one scroll progress, CSS sticky stage, ScrollTrigger progress, Lenis smoothing, both vendored in `public/vendor/`.
    - 01, the tub. The empty mould fills with `pour.jpg` (her 18409). Her line "We just do soft baits, fishing baits." in the clear band under the letters.
-   - 02, poured, not bought. `hand.jpg` (her 18410) crossfades inside the letters, then reveals outward from the bait she is holding until it covers the stage. No caption beyond the beat index.
+   - 02, poured, not bought. `hand.jpg` (her 18410) crossfades inside the letters, then opens as a porthole around the bait she is holding, tub white kept around it so the stage keeps its air. No caption beyond the beat index.
    - 03, the colour. The pin releases and the catalogue scrolls over.
    - 04, ships from here. Bag and checkout.
-3. Baits. Tubs seen from above: her plastic in one circle, five empty tubs beside it. Then each shape as a full bleed strip of her photograph with the shape name set half on, half off the photo, colour line, price slot, add to bag. One empty strip for the next shape. Industry pattern: shape then colour is the unit of sale.
+3. Baits. Tubs seen from above: her plastic in one circle, five empty tubs beside it. Then each shape as an inset photograph at about half width, alternating sides, with the shape name set half on, half off the photo, colour line, price slot, add to bag. One empty strip for the next shape. Industry pattern: shape then colour is the unit of sale.
 4. Checkout. A packing slip in the mono face with dotted leaders (from, order number, bag lines, items, shipping, payment as slots) beside a ship to form. A sample order lands in the admin panel.
 5. Shirts. Her shirt photo as a strip with her line about merch and one labelled empty slot. The bass art is marked as the shirt's print, not the logo.
 6. Footer. Name set as type with a labelled empty logo slot, a questions form that lands in the admin panel. No address, phone, hours, social.
