@@ -4,3 +4,16 @@ node_modules
 .DS_Store
 *.log
 .env*
+client-media/20260917_18403.jpg
+# packet files, never part of the deployed site
+.sdbuild
+finish
+BRIEF.md
+CHANGES.md
+DIRECTION.md
+INDUSTRY.md
+PAST-DEMOS.md
+PROMPT.md
+client-media/
+tsconfig.tsbuildinfo
+FINISH.json
