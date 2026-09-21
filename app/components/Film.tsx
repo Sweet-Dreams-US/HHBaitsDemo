@@ -78,10 +78,10 @@ export default function Film({ topRow }: { topRow?: ReactNode }) {
       const cap = 0.7; // em, cap height of the display face
       const blockEm = cap + lineGap * (words.length - 1);
       const byWidth = ((W - (wide ? 48 : 32)) / widest) * 100;
-      const byHeight = ((H * (wide ? 0.5 : 0.57)) / blockEm) * 100;
+      const byHeight = (H * (wide ? 0.4 : 0.46)) / blockEm;
       fontSize = Math.floor(Math.min(byWidth, byHeight));
       const block = blockEm * fontSize;
-      const top = (H - block) / 2 - fontSize * (wide ? 0 : 0.12);
+      const top = (H - block) / 2 - fontSize * (wide ? 0.06 : 0.16);
       lines = words.map((text, i) => ({ text, x: W / 2, y: top + cap * fontSize + i * lineGap * fontSize }));
     }
 
