@@ -84,7 +84,7 @@ export const realProducts: Product[] = [
   },
 ];
 
-// Sample rows for the admin panel so Heather can see how a day looks.
+// Sample rows for the admin panel so the owner can see how a day looks.
 // Names are placeholders and every row is flagged sample.
 export const sampleOrders: Order[] = [
   {

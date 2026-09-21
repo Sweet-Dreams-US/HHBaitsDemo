@@ -15,7 +15,7 @@ Sources: obeebaits.com, lakeboundbaits.com, getbitbaits.com, zoombait.com. Words
 
 ## What was sourced from the open web
 
-Nothing on the page. The fonts (Archivo Black, Instrument Sans, Caveat) are open licence and self hosted at build time through next/font. GSAP, ScrollTrigger and Lenis are vendored from their npm packages into `public/vendor/`.
+Nothing on the page. The fonts (Alfa Slab One, Sometype Mono, Permanent Marker) are open licence and self hosted at build time through next/font. GSAP, ScrollTrigger and Lenis are vendored from their npm packages into `public/vendor/`.
 
 ## What is a labelled empty slot
 
@@ -32,6 +32,10 @@ Four blocks, all in the admin panel: three sample orders and one sample contact,
 - The scent bottle in `20260914_21428.jpg` was cropped out of frame. The card shows the worms above it only.
 - No Square, no card brands, no payment method named anywhere. The payment line is an empty slot.
 - No Facebook or social link. Two searches did not find her page.
+
+## After Cole's first look
+
+Fonts swapped for faces with character (slab, mono, marker). Every sentence of ours that named the owner or explained the idea was cut, the page now carries her two quotes, section names and slot markers. The back half was rebuilt away from cards and columns: tubs from above, full bleed photo strips with the shape name overlapping the photograph, a packing slip for checkout, one shirt strip, questions in the footer.
 
 ## Unsure about
 

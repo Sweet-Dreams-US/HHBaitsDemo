@@ -26,11 +26,11 @@ Nothing on the first demo was rejected. On 17 September Heather texted three pho
 
 Three faces, three jobs, all self hosted through next/font at build time, nothing from a CDN at runtime.
 
-- Display: Archivo Black 400. The wordmark in the canvas, section headings, product names. Heavy with big counters so the photograph reads inside the letters.
-- Body: Instrument Sans 400, 500, 600. 17px body, 18px lede, 13px uppercase index labels, 16px inputs so iOS does not zoom.
-- Accent: Caveat 500. Only for the empty slot markers, the sample row markers, the scroll hint and the attribution under her quote.
+- Display: Alfa Slab One 400. The wordmark in the canvas, section names, shape names. A lure package slab with huge counters so the photograph reads inside the letters.
+- Body: Sometype Mono 400, 500, 700. Everything else: labels, the packing slip, buttons, forms. 17px body, 14px uppercase index labels, 16px inputs so iOS does not zoom.
+- Accent: Permanent Marker 400. Only the empty slot and sample markers, because that is how a tub lid gets labelled.
 
-Scale: h2 clamp(28px, 6.4vw, 54px), h3 20px, beat quote clamp(19px, 4.8vw, 27px), wordmark computed per viewport by the canvas.
+Scale: h2 clamp(44px, 9vw, 96px), shape names clamp(38px, 11vw, 120px), beat quote clamp(19px, 4.8vw, 28px), wordmark computed per viewport by the canvas.
 
 ## Sections, in order
 
@@ -40,11 +40,12 @@ Scale: h2 clamp(28px, 6.4vw, 54px), h3 20px, beat quote clamp(19px, 4.8vw, 27px)
    - 02, poured, not bought. `hand.jpg` (her 18410) crossfades inside the letters, then reveals outward from the bait she is holding until it covers the stage. No caption beyond the beat index.
    - 03, the colour. The pin releases and the catalogue scrolls over.
    - 04, ships from here. Bag and checkout.
-3. The colour. One real swatch from her photograph plus five labelled empty swatches, then the three shapes visible in her photographs as products, each with a labelled empty price slot, plus one labelled empty product slot. Industry pattern: every hand pour brand keys the shop by shape then colour.
-4. Ships from here. Bag, native inputs for name, email and ship to, three labelled empty slots (prices, shipping, payment), a sample order that lands in the admin panel. Industry pattern: plain Shopify style cart, nothing clever.
-5. Shirts and merchandise. Her shirt photo, her line about merch, one labelled empty slot. The bass art is captioned as the shirt's print, not the logo.
-6. Ask Heather. Contact form that lands in the admin panel.
-7. Footer. Name set as type with a labelled empty logo slot. No address, phone, hours, social.
+3. Baits. Tubs seen from above: her plastic in one circle, five empty tubs beside it. Then each shape as a full bleed strip of her photograph with the shape name set half on, half off the photo, colour line, price slot, add to bag. One empty strip for the next shape. Industry pattern: shape then colour is the unit of sale.
+4. Checkout. A packing slip in the mono face with dotted leaders (from, order number, bag lines, items, shipping, payment as slots) beside a ship to form. A sample order lands in the admin panel.
+5. Shirts. Her shirt photo as a strip with her line about merch and one labelled empty slot. The bass art is marked as the shirt's print, not the logo.
+6. Footer. Name set as type with a labelled empty logo slot, a questions form that lands in the admin panel. No address, phone, hours, social.
+
+Our copy is section names and slot markers only. Nothing on the page names the owner and nothing explains the metaphor.
 
 ## Media plan
 

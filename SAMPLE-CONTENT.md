@@ -19,13 +19,13 @@ Everything on the public page is either her own photograph, her own words, or a 
 
 These say what they are waiting for, in the handwritten marker, and are not sample content.
 
-1 to 5. Five next colour swatches, each waiting on a photo she adds from the admin panel.
-6. Next shape product card, waiting on a photo from her phone.
-7 to 9. Price on each of the three products, she sets it.
-10. Items total in the bag, prices she sets.
-11. Shipping in the bag, rates she sets.
-12. Payment in the bag, set up when the store goes live.
-13. Merchandise line, waiting on the merch line and a logo file.
-14. Logo in the footer, the name set as type stands in until she sends a file.
+1 to 5. Five empty tubs, next colour.
+6. Next shape strip.
+7 to 9. Price to be set on each of the three shapes.
+10. Items on the packing slip, prices to be set.
+11. Shipping on the packing slip, rate to be set.
+12. Payment on the packing slip, to be set up.
+13. Shirts, to be added.
+14. Logo in the footer, to come, the name set as type until then.
 
 The admin panel carries more of the same marker: the shipping label on each order, price not set and count not set on each product, and no photo yet or colour not written yet on anything she adds half filled.

@@ -1,27 +1,27 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Archivo_Black, Instrument_Sans, Caveat } from "next/font/google";
+import { Alfa_Slab_One, Sometype_Mono, Permanent_Marker } from "next/font/google";
 import "./globals.css";
 
 // next/font downloads these at build time and serves them from this deployment.
 // Nothing is fetched from a font CDN at runtime.
-const display = Archivo_Black({
+const display = Alfa_Slab_One({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-display",
   display: "swap",
 });
 
-const body = Instrument_Sans({
+const body = Sometype_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "700"],
   variable: "--font-body",
   display: "swap",
 });
 
-const hand = Caveat({
+const hand = Permanent_Marker({
   subsets: ["latin"],
-  weight: ["500"],
+  weight: "400",
   variable: "--font-hand",
   display: "swap",
 });

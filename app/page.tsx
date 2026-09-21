@@ -25,10 +25,12 @@ export default function Home() {
   const [drawer, setDrawer] = useState(false);
   const [placed, setPlaced] = useState<string | null>(null);
   const [asked, setAsked] = useState(false);
+  const [orderCount, setOrderCount] = useState(0);
 
   useEffect(() => {
     setProducts(store.products());
     setCart(store.cart());
+    setOrderCount(store.orders().length);
   }, []);
 
   useEffect(() => {
@@ -76,6 +78,7 @@ export default function Home() {
       ...store.orders(),
     ]);
     updateCart([]);
+    setOrderCount(store.orders().length);
     setPlaced(id);
   }
 
@@ -110,170 +113,149 @@ export default function Home() {
         topRow={
           <>
             <span className="top-word">Soft fishing baits</span>
-            <a href="#colour" className="top-link">Shop</a>
+            <a href="#colour" className="top-link">Baits</a>
             {bagButton}
           </>
         }
       />
 
-      {/* 03, the colour */}
-      <section className="colour" id="colour">
-        <div className="colour-head">
-          <p className="index">03, the colour</p>
-          <h2>Soft plastics sell by colour. This is the one in the tub today.</h2>
-          <p className="lede">Green pumpkin with gold, silver and red flake, photographed close enough to count it. More colours land here as Heather adds them.</p>
+      {/* 03, the colour. Tubs from above, then each shape as a strip. */}
+      <section className="baits" id="colour">
+        <div className="section-head">
+          <p className="index">03</p>
+          <h2>Baits</h2>
         </div>
 
-        <div className="swatches" role="list" aria-label="Colours">
-          <div className="swatch real" role="listitem">
-            <div className="swatch-photo">
-              <Image src="/images/swatch.jpg" alt="Green pumpkin soft plastic with gold, silver and red flake, poured by H&H Baits" fill sizes="(max-width: 700px) 60vw, 22vw" />
+        <div className="tubs" role="list" aria-label="Colours">
+          <div className="tub real" role="listitem">
+            <div className="tub-photo">
+              <Image src="/images/swatch.jpg" alt="Green pumpkin soft plastic with gold, silver and red flake, in the tub" fill sizes="(max-width: 700px) 42vw, 18vw" />
             </div>
-            <p className="swatch-name">Green pumpkin, gold, silver and red flake</p>
-            <p className="swatch-note">Her photograph</p>
+            <p className="tub-name">Green pumpkin, gold, silver and red flake</p>
           </div>
           {[1, 2, 3, 4, 5].map((n) => (
-            <div className="swatch empty" role="listitem" key={n}>
-              <div className="swatch-photo" />
-              <p className="swatch-name">Next colour</p>
-              <p className="swatch-note"><Slot>empty, Heather adds it from the admin panel</Slot></p>
+            <div className="tub empty" role="listitem" key={n}>
+              <div className="tub-photo" />
+              <p className="tub-name"><Slot>next colour</Slot></p>
             </div>
           ))}
         </div>
 
-        <div className="shapes">
-          {baits.map((p) => (
-            <article className="shape" key={p.id}>
-              <div className="shape-photo">
-                <Image src={p.photo} alt={`${p.shape}, ${p.colour}, photographed by H&H Baits`} fill sizes="(max-width: 700px) 100vw, 33vw" />
+        <div className="strips">
+          {baits.map((p, i) => (
+            <article className="strip" key={p.id}>
+              <div className="strip-photo">
+                <Image src={p.photo} alt={`${p.shape}, ${p.colour}`} fill sizes="100vw" />
               </div>
-              <div className="shape-body">
-                <h3>{p.shape}</h3>
-                <p className="shape-colour">{p.colour}</p>
-                <p className="shape-price">
-                  {p.price !== null ? `$${p.price.toFixed(2)}` : <Slot>price, Heather sets it</Slot>}
-                </p>
+              <h3 className="strip-name"><span>{String(i + 1).padStart(2, "0")}</span>{p.shape}</h3>
+              <div className="strip-meta">
+                <p>{p.colour}</p>
+                <p className="strip-price">{p.price !== null ? `$${p.price.toFixed(2)}` : <Slot>price to be set</Slot>}</p>
                 <button className="add" onClick={() => add(p.id)}>Add to bag</button>
               </div>
             </article>
           ))}
-          <article className="shape ghost" aria-label="Empty product slot">
-            <div className="shape-photo" />
-            <div className="shape-body">
-              <h3>Next shape</h3>
-              <p className="shape-colour"><Slot>empty, a photo from her phone fills this</Slot></p>
-            </div>
+          <article className="strip ghost" aria-label="Empty product slot">
+            <div className="strip-photo" />
+            <h3 className="strip-name"><span>{String(baits.length + 1).padStart(2, "0")}</span><Slot>next shape</Slot></h3>
           </article>
         </div>
       </section>
 
-      {/* 04, ships from here */}
-      <section className="ships" id="ships">
-        <div className="ships-head">
-          <p className="index">04, ships from here</p>
-          <h2>Heather packs it and ships it.</h2>
-          <p className="lede">A plain checkout. Bag, address, done.</p>
+      {/* 04, ships from here. A packing slip. */}
+      <section className="slip" id="ships">
+        <div className="section-head">
+          <p className="index">04</p>
+          <h2>Checkout</h2>
         </div>
 
-        <div className="checkout">
-          <div className="bag">
-            <h3>Your bag</h3>
-            {lines.length === 0 ? (
-              <p className="bag-empty">Nothing in the bag yet. <a href="#colour">Pick a bait.</a></p>
-            ) : (
-              <ul>
-                {lines.map((l) => (
-                  <li key={l.productId}>
-                    <div className="bag-thumb"><Image src={l.product.photo} alt="" fill sizes="64px" /></div>
-                    <div className="bag-text">
-                      <strong>{l.product.shape}</strong>
-                      <span>{l.product.colour}</span>
-                    </div>
+        <div className="slip-body">
+          <div className="slip-paper">
+            <p className="slip-title">Packing slip</p>
+            <p className="slip-line"><span>From</span><span className="leader" /><span>H&amp;H Baits</span></p>
+            <p className="slip-line"><span>Order</span><span className="leader" /><span>{`HH-${1000 + orderCount + 1}`}</span></p>
+            <div className="slip-items">
+              {lines.length === 0 ? (
+                <p className="slip-line"><span>Bag</span><span className="leader" /><span>empty</span></p>
+              ) : (
+                lines.map((l) => (
+                  <div className="slip-item" key={l.productId}>
+                    <p className="slip-line"><span>{l.product.shape}</span><span className="leader" /><span>&times; {l.qty}</span></p>
+                    <p className="slip-sub">{l.product.colour}</p>
                     <div className="qty" aria-label={`Quantity of ${l.product.shape}`}>
                       <button onClick={() => setQty(l.productId, l.qty - 1)} aria-label="Fewer">&minus;</button>
                       <span>{l.qty}</span>
                       <button onClick={() => setQty(l.productId, l.qty + 1)} aria-label="More">+</button>
                     </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <dl className="totals">
-              <div><dt>Items</dt><dd><Slot>prices, Heather sets them</Slot></dd></div>
-              <div><dt>Shipping</dt><dd><Slot>rates, Heather sets them</Slot></dd></div>
-              <div><dt>Payment</dt><dd><Slot>set up when the store goes live</Slot></dd></div>
-            </dl>
+                  </div>
+                ))
+              )}
+            </div>
+            <p className="slip-line"><span>Items</span><span className="leader" /><Slot>prices to be set</Slot></p>
+            <p className="slip-line"><span>Shipping</span><span className="leader" /><Slot>rate to be set</Slot></p>
+            <p className="slip-line"><span>Payment</span><span className="leader" /><Slot>to be set up</Slot></p>
           </div>
 
           {placed ? (
             <div className="done" role="status">
               <p className="index">Order {placed}</p>
-              <h3>Sample order placed.</h3>
-              <p>It is saved on this device only and shows up in the admin panel under orders. Nothing was sent and nothing was charged.</p>
+              <p>Sample order saved on this device. It shows in the admin panel under orders. Nothing was sent or charged.</p>
               <div className="done-actions">
-                <Link href="/admin" className="button">See it in the admin panel</Link>
+                <Link href="/admin" className="button">Open the admin panel</Link>
                 <button className="link" onClick={() => setPlaced(null)}>Start again</button>
               </div>
             </div>
           ) : (
             <form className="ship-form" onSubmit={placeOrder}>
+              <p className="slip-title">Ship to</p>
               <label>Name<input name="name" required autoComplete="name" /></label>
               <label>Email<input name="email" type="email" required autoComplete="email" inputMode="email" /></label>
-              <label>Ship to<textarea name="address" required rows={3} autoComplete="street-address" /></label>
+              <label>Address<textarea name="address" required rows={3} autoComplete="street-address" /></label>
               <button className="button" type="submit" disabled={lines.length === 0}>Place a sample order</button>
-              <p className="fine">Demo only. This does not send, store or charge anything beyond this browser.</p>
+              <p className="fine">Demo. Saved in this browser only. Nothing is sent or charged.</p>
             </form>
           )}
         </div>
       </section>
 
-      {/* Merchandise, empty on purpose */}
-      <section className="merch" id="merch">
-        <div className="merch-photo">
-          <Image src="/images/shirt.jpg" alt="A yellow t-shirt with a Catch Ya Later largemouth bass print, photographed by H&H Baits" fill sizes="(max-width: 700px) 100vw, 40vw" />
-          <p className="merch-tag">Her photograph. The bass art is the shirt&rsquo;s print, not the H&amp;H Baits logo.</p>
+      {/* Shirts, one photo, her words */}
+      <section className="shirts" id="merch">
+        <div className="shirt-photo">
+          <Image src="/images/shirt.jpg" alt="A yellow t-shirt with a Catch Ya Later largemouth bass print" fill sizes="100vw" />
         </div>
-        <div className="merch-copy">
-          <p className="index">Shirts and merchandise</p>
-          <h2>&ldquo;Also we sell tshirts and merchandise with our logo.&rdquo;</h2>
-          <p className="lede">One shirt has been photographed so far. The line goes here once Heather adds it.</p>
-          <p><Slot>empty, waiting on the merch line and a logo file</Slot></p>
+        <div className="shirt-copy">
+          <p className="index">Shirts</p>
+          <p className="shirt-quote">&ldquo;Also we sell tshirts and merchandise with our logo.&rdquo;</p>
+          <p><Slot>shirts to be added. The bass print is the shirt&rsquo;s art, not the logo</Slot></p>
         </div>
-      </section>
-
-      {/* Contact */}
-      <section className="ask" id="ask">
-        <div className="ask-copy">
-          <p className="index">Ask Heather</p>
-          <h2>Got a question about a bait?</h2>
-          <p className="lede">It lands in her admin panel with the orders.</p>
-        </div>
-        {asked ? (
-          <div className="done" role="status">
-            <h3>Saved on this device.</h3>
-            <p>It shows in the admin panel under contacts. Nothing was sent.</p>
-            <button className="link" onClick={() => setAsked(false)}>Ask another</button>
-          </div>
-        ) : (
-          <form className="ask-form" onSubmit={ask}>
-            <label>Name<input name="name" required autoComplete="name" /></label>
-            <label>Email or phone<input name="reach" required /></label>
-            <label>Question<textarea name="message" required rows={4} /></label>
-            <button className="button" type="submit">Send</button>
-            <p className="fine">Demo only. Saved in this browser, not sent.</p>
-          </form>
-        )}
       </section>
 
       <footer>
-        <div className="foot-mark">
-          <span className="mark">H&amp;H BAITS</span>
-          <Slot>logo, the name set as type stands in until Heather sends a file</Slot>
+        <div className="foot-row">
+          <div className="foot-mark">
+            <span className="mark">H&amp;H BAITS</span>
+            <Slot>logo to come, the name set as type until then</Slot>
+          </div>
+          {asked ? (
+            <div className="done small" role="status">
+              <p>Saved on this device. It shows in the admin panel under contacts.</p>
+              <button className="link" onClick={() => setAsked(false)}>Ask another</button>
+            </div>
+          ) : (
+            <form className="ask-form" onSubmit={ask} id="ask">
+              <p className="slip-title">Questions</p>
+              <label>Name<input name="name" required autoComplete="name" /></label>
+              <label>Email or phone<input name="reach" required /></label>
+              <label>Question<textarea name="message" required rows={3} /></label>
+              <button className="button" type="submit">Send</button>
+              <p className="fine">Demo. Saved in this browser, not sent.</p>
+            </form>
+          )}
         </div>
-        <p>Soft fishing baits, poured by hand.</p>
         <nav aria-label="Footer">
-          <a href="#colour">Shop</a>
-          <a href="#ask">Ask</a>
+          <a href="#colour">Baits</a>
+          <a href="#ships">Checkout</a>
+          <a href="#ask">Questions</a>
           <Link href="/admin">Admin</Link>
         </nav>
       </footer>
@@ -287,7 +269,7 @@ export default function Home() {
             <button className="close" onClick={() => setDrawer(false)} aria-label="Close">&times;</button>
           </div>
           {lines.length === 0 ? (
-            <p className="bag-empty">Nothing in the bag yet.</p>
+            <p className="bag-empty">Bag is empty.</p>
           ) : (
             <ul>
               {lines.map((l) => (
@@ -306,7 +288,7 @@ export default function Home() {
               ))}
             </ul>
           )}
-          <p className="fine"><Slot>prices and shipping, Heather sets them</Slot></p>
+          <p className="fine"><Slot>prices and shipping to be set</Slot></p>
           <a href="#ships" className="button" onClick={() => setDrawer(false)}>Go to checkout</a>
         </aside>
       </div>

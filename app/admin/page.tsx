@@ -118,9 +118,9 @@ export default function AdminPage() {
           <Link href="/">Back to the site</Link>
         </div>
         <div className="gate-body">
-          <p className="index">Private page for Heather</p>
+          <p className="index">Private page</p>
           <h1>H&amp;H Baits admin</h1>
-          <p className="lede">Orders, anyone who contacted you, and your products. On a demo there is no password, one button gets you in.</p>
+          <p className="lede">Orders, contacts, products, inventory. No password on a demo.</p>
           <button className="button" onClick={() => setEntered(true)}>Enter</button>
         </div>
       </main>

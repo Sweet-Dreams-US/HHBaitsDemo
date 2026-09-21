@@ -75,7 +75,7 @@ export default function Film({ topRow }: { topRow?: ReactNode }) {
       ctx!.font = `400 100px ${family}`;
       const widest = Math.max(...words.map((w) => ctx!.measureText(w).width));
       const lineGap = 0.9; // em between baselines
-      const cap = 0.72; // em, cap height of the display face
+      const cap = 0.7; // em, cap height of the display face
       const blockEm = cap + lineGap * (words.length - 1);
       const byWidth = ((W - (wide ? 48 : 32)) / widest) * 100;
       const byHeight = ((H * (wide ? 0.5 : 0.57)) / blockEm) * 100;
@@ -278,12 +278,12 @@ export default function Film({ topRow }: { topRow?: ReactNode }) {
         <h1 className="sr-only">H&amp;H Baits. Soft fishing baits, poured by hand.</h1>
         <div className="stage-top">{topRow}</div>
         <div className="beat beat-one" ref={beatOne}>
-          <p className="beat-index">01, the tub</p>
+          <p className="beat-index">01</p>
           <p className="beat-quote">&ldquo;We just do soft baits, fishing baits.&rdquo;</p>
-          <p className="beat-who">Heather, H&amp;H Baits</p>
+          <p className="beat-who">H&amp;H Baits</p>
         </div>
         <div className="beat beat-two" ref={beatTwo}>
-          <p className="beat-index">02, poured, not bought</p>
+          <p className="beat-index">02</p>
         </div>
         <div className="scroll-hint" ref={hintRef} aria-hidden="true">
           Scroll to pour
@@ -292,8 +292,7 @@ export default function Film({ topRow }: { topRow?: ReactNode }) {
       <figure className="still-hand">
         {/* Shown only when motion is reduced, so the hand is never lost. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={HAND} alt="Heather's hand lifting a creature bait out of a tub of green pumpkin soft plastics" />
-        <figcaption>Poured, not bought.</figcaption>
+        <img src={HAND} alt="A hand lifting a creature bait out of a tub of green pumpkin soft plastics" />
       </figure>
     </section>
   );
