@@ -8,10 +8,26 @@ export type Product = {
   photo: string; // path under /images, or a data URL when she adds one in admin
   price: number | null; // null until she sets it. No dollar figure was ever said.
   count: number | null; // null until she sets it
-  collection: "baits" | "merch";
+  collections: string[]; // collection ids. A product can sit in more than one.
   published: boolean;
   real: boolean; // true when the photograph is hers
 };
+
+// Collections sort the catalogue. Each one can have its own page or just be a
+// way of grouping, which is what the ownPage toggle decides.
+export type Collection = {
+  id: string;
+  name: string;
+  slug: string;
+  ownPage: boolean;
+  blurb: string; // her words or empty, never ours
+};
+
+export const realCollections: Collection[] = [
+  { id: "baits", name: "Baits", slug: "baits", ownPage: true, blurb: "" },
+  { id: "merch", name: "Merch", slug: "merch", ownPage: true, blurb: "" },
+  { id: "green-pumpkin", name: "Green pumpkin", slug: "green-pumpkin", ownPage: true, blurb: "" },
+];
 
 export type CartLine = { productId: string; qty: number };
 
@@ -45,7 +61,7 @@ export const realProducts: Product[] = [
     photo: "/images/worms.jpg",
     price: null,
     count: null,
-    collection: "baits",
+    collections: ["baits", "green-pumpkin"],
     published: true,
     real: true,
   },
@@ -56,7 +72,7 @@ export const realProducts: Product[] = [
     photo: "/images/swatch.jpg",
     price: null,
     count: null,
-    collection: "baits",
+    collections: ["baits", "green-pumpkin"],
     published: true,
     real: true,
   },
@@ -67,7 +83,7 @@ export const realProducts: Product[] = [
     photo: "/images/creature.jpg",
     price: null,
     count: null,
-    collection: "baits",
+    collections: ["baits", "green-pumpkin"],
     published: true,
     real: true,
   },
@@ -78,8 +94,8 @@ export const realProducts: Product[] = [
     photo: "/images/shirt.jpg",
     price: null,
     count: null,
-    collection: "merch",
-    published: false,
+    collections: ["merch"],
+    published: true,
     real: true,
   },
 ];
@@ -134,6 +150,7 @@ export const sampleContacts: Contact[] = [
 ];
 
 const KEYS = {
+  collections: "hh.collections",
   products: "hh.products",
   orders: "hh.orders",
   contacts: "hh.contacts",
@@ -159,8 +176,21 @@ function write<T>(key: string, value: T) {
   }
 }
 
+// Older saved carts and products used a single `collection` string. Bring them
+// forward rather than dropping what she already typed in.
+type LegacyProduct = Product & { collection?: string };
+function migrate(list: Product[]): Product[] {
+  return list.map((p) => {
+    const legacy = p as LegacyProduct;
+    if (Array.isArray(p.collections)) return p;
+    return { ...p, collections: legacy.collection ? [legacy.collection] : [] };
+  });
+}
+
 export const store = {
-  products: () => read<Product[]>(KEYS.products, realProducts),
+  collections: () => read<Collection[]>(KEYS.collections, realCollections),
+  saveCollections: (c: Collection[]) => write(KEYS.collections, c),
+  products: () => migrate(read<Product[]>(KEYS.products, realProducts)),
   saveProducts: (p: Product[]) => write(KEYS.products, p),
   orders: () => read<Order[]>(KEYS.orders, sampleOrders),
   saveOrders: (o: Order[]) => write(KEYS.orders, o),
@@ -181,6 +211,10 @@ export const store = {
 
 export function money(price: number | null) {
   return price === null ? null : `$${price.toFixed(2)}`;
+}
+
+export function slugify(name: string) {
+  return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "collection";
 }
 
 export function when(iso: string) {

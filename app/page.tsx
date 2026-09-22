@@ -37,7 +37,8 @@ export default function Home() {
     document.body.classList.toggle("drawer-open", drawer);
   }, [drawer]);
 
-  const baits = products.filter((p) => p.collection === "baits" && p.published);
+  const baits = products.filter((p) => p.collections.includes("baits") && p.published);
+  const merch = products.filter((p) => p.collections.includes("merch") && p.published);
   const count = cart.reduce((n, l) => n + l.qty, 0);
   const lines = useMemo(
     () =>
@@ -147,11 +148,14 @@ export default function Home() {
               <div className="strip-photo">
                 <Image src={p.photo} alt={`${p.shape}, ${p.colour}`} fill sizes="100vw" />
               </div>
-              <h3 className="strip-name"><span>{String(i + 1).padStart(2, "0")}</span>{p.shape}</h3>
+              <h3 className="strip-name"><span>{String(i + 1).padStart(2, "0")}</span><Link href={`/product/${p.id}`}>{p.shape}</Link></h3>
               <div className="strip-meta">
                 <p>{p.colour}</p>
                 <p className="strip-price">{p.price !== null ? `$${p.price.toFixed(2)}` : <Slot>price to be set</Slot>}</p>
-                <button className="add" onClick={() => add(p.id)}>Add to bag</button>
+                <div className="item-actions">
+                  <button className="add" onClick={() => add(p.id)}>Add to bag</button>
+                  <Link className="link" href={`/product/${p.id}`}>Details</Link>
+                </div>
               </div>
             </article>
           ))}
@@ -218,15 +222,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Shirts, one photo, her words */}
-      <section className="shirts" id="merch">
-        <div className="shirt-photo">
-          <Image src="/images/shirt.jpg" alt="A yellow t-shirt with a Catch Ya Later largemouth bass print" fill sizes="100vw" />
+      {/* 05, merch. Built the same way as the baits, because she sells these too. */}
+      <section className="merch" id="merch">
+        <div className="section-head">
+          <p className="index">05</p>
+          <h2>Merch</h2>
         </div>
-        <div className="shirt-copy">
-          <p className="index">Shirts</p>
-          <p className="shirt-quote">&ldquo;Also we sell tshirts and merchandise with our logo.&rdquo;</p>
-          <p><Slot>shirts to be added. The bass print is the shirt&rsquo;s art, not the logo</Slot></p>
+
+        <p className="merch-quote">&ldquo;Also we sell tshirts and merchandise with our logo.&rdquo;</p>
+
+        <div className="merch-grid">
+          {merch.map((p) => (
+            <article className="item" key={p.id}>
+              <div className="item-photo">
+                <Image src={p.photo} alt={`${p.shape}, ${p.colour}`} fill sizes="(max-width: 700px) 92vw, 34vw" />
+              </div>
+              <div className="item-body">
+                <h3><Link href={`/product/${p.id}`}>{p.shape}</Link></h3>
+                <p className="item-colour">{p.colour}</p>
+                <p className="item-line"><span>Size</span><span className="leader" /><Slot>sizes to be set</Slot></p>
+                <p className="item-line"><span>Price</span><span className="leader" />{p.price !== null ? <span>${p.price.toFixed(2)}</span> : <Slot>to be set</Slot>}</p>
+                <div className="item-actions">
+                  <button className="add" onClick={() => add(p.id)}>Add to bag</button>
+                  <Link className="link" href={`/product/${p.id}`}>Details</Link>
+                </div>
+                <p className="fine">The bass print is the shirt&rsquo;s art, not the H&amp;H Baits logo.</p>
+              </div>
+            </article>
+          ))}
+
+          <article className="item ghost" aria-label="Empty merch slot">
+            <div className="item-photo" />
+            <div className="item-body">
+              <h3><Slot>hoodie</Slot></h3>
+              <p className="item-colour">Add a photo and it goes live here.</p>
+            </div>
+          </article>
+
+          <article className="item ghost" aria-label="Empty merch slot">
+            <div className="item-photo" />
+            <div className="item-body">
+              <h3><Slot>hat</Slot></h3>
+              <p className="item-colour">Add a photo and it goes live here.</p>
+            </div>
+          </article>
+
+          <article className="item ghost" aria-label="Empty merch slot">
+            <div className="item-photo" />
+            <div className="item-body">
+              <h3><Slot>next item</Slot></h3>
+              <p className="item-colour">Add a photo and it goes live here.</p>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -254,6 +301,7 @@ export default function Home() {
         </div>
         <nav aria-label="Footer">
           <a href="#colour">Baits</a>
+          <a href="#merch">Merch</a>
           <a href="#ships">Checkout</a>
           <a href="#ask">Questions</a>
           <Link href="/admin">Admin</Link>

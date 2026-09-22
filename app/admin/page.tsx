@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { Contact, Order, Product, money, store, when } from "../lib/store";
+import { Collection, Contact, Order, Product, money, slugify, store, when } from "../lib/store";
 
-type View = "orders" | "contacts" | "products" | "inventory";
+type View = "orders" | "contacts" | "products" | "collections" | "inventory";
 
 const blank: Omit<Product, "id"> = {
   shape: "",
@@ -12,7 +12,7 @@ const blank: Omit<Product, "id"> = {
   photo: "",
   price: null,
   count: null,
-  collection: "baits",
+  collections: ["baits"],
   published: false,
   real: true,
 };
@@ -23,6 +23,8 @@ export default function AdminPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [newCollection, setNewCollection] = useState("");
   const [editing, setEditing] = useState<Product | null>(null);
   const [draft, setDraft] = useState<Omit<Product, "id">>(blank);
   const [notice, setNotice] = useState("");
@@ -32,6 +34,7 @@ export default function AdminPage() {
     setOrders(store.orders());
     setContacts(store.contacts());
     setProducts(store.products());
+    setCollections(store.collections());
   }, []);
 
   function say(text: string) {
@@ -42,6 +45,48 @@ export default function AdminPage() {
   function saveProducts(next: Product[]) {
     setProducts(next);
     store.saveProducts(next);
+  }
+
+  function saveCollections(next: Collection[]) {
+    setCollections(next);
+    store.saveCollections(next);
+  }
+
+  function addCollection() {
+    const name = newCollection.trim();
+    if (!name) return;
+    const id = slugify(name);
+    if (collections.some((c) => c.id === id)) {
+      say("That collection already exists.");
+      return;
+    }
+    saveCollections([...collections, { id, name, slug: id, ownPage: true, blurb: "" }]);
+    setNewCollection("");
+    say("Collection added.");
+  }
+
+  function toggleOwnPage(c: Collection) {
+    saveCollections(collections.map((x) => (x.id === c.id ? { ...x, ownPage: !x.ownPage } : x)));
+  }
+
+  function removeCollection(c: Collection) {
+    if (!window.confirm(`Delete the ${c.name} collection? Products stay, they just leave this collection.`)) return;
+    saveCollections(collections.filter((x) => x.id !== c.id));
+    saveProducts(products.map((p) => ({ ...p, collections: p.collections.filter((id) => id !== c.id) })));
+  }
+
+  function toggleProductCollection(id: string) {
+    setDraft((d) => ({
+      ...d,
+      collections: d.collections.includes(id) ? d.collections.filter((x) => x !== id) : [...d.collections, id],
+    }));
+  }
+
+  // Inventory is adjusted on the product itself, so she never has to go
+  // looking for a separate screen after a batch.
+  function bump(p: Product, by: number) {
+    const next = Math.max(0, (p.count ?? 0) + by);
+    saveProducts(products.map((x) => (x.id === p.id ? { ...x, count: next } : x)));
   }
 
   function startNew() {
@@ -107,6 +152,7 @@ export default function AdminPage() {
     setOrders(store.orders());
     setContacts(store.contacts());
     setProducts(store.products());
+    setCollections(store.collections());
     say("Reset.");
   }
 
@@ -145,6 +191,7 @@ export default function AdminPage() {
                 ["orders", "Orders"],
                 ["contacts", "Contacts"],
                 ["products", "Products"],
+                ["collections", "Collections"],
                 ["inventory", "Inventory"],
               ] as [View, string][]
             ).map(([key, label]) => (
@@ -239,12 +286,14 @@ export default function AdminPage() {
                   <label>Colour<input value={draft.colour} onChange={(e) => setDraft({ ...draft, colour: e.target.value })} placeholder="Green pumpkin, gold and red flake" /></label>
                   <label>Price<input type="number" inputMode="decimal" step="0.01" min="0" value={draft.price ?? ""} onChange={(e) => setDraft({ ...draft, price: e.target.value === "" ? null : Number(e.target.value) })} placeholder="Not set" /></label>
                   <label>Count in stock<input type="number" inputMode="numeric" min="0" step="1" value={draft.count ?? ""} onChange={(e) => setDraft({ ...draft, count: e.target.value === "" ? null : Number(e.target.value) })} placeholder="Not set" /></label>
-                  <label>Collection
-                    <select value={draft.collection} onChange={(e) => setDraft({ ...draft, collection: e.target.value as Product["collection"] })}>
-                      <option value="baits">Baits</option>
-                      <option value="merch">Shirts and merchandise</option>
-                    </select>
-                  </label>
+                  <fieldset className="collection-pick">
+                    <legend>Collections</legend>
+                    {collections.map((c) => (
+                      <label className="check" key={c.id}>
+                        <input type="checkbox" checked={draft.collections.includes(c.id)} onChange={() => toggleProductCollection(c.id)} /> {c.name}
+                      </label>
+                    ))}
+                  </fieldset>
                   <label className="check"><input type="checkbox" checked={draft.published} onChange={(e) => setDraft({ ...draft, published: e.target.checked })} /> Published on the site</label>
                   <label className="photo-field">Photo
                     <input ref={fileRef} type="file" accept="image/*" onChange={(e) => onPhoto(e.target.files?.[0])} />
@@ -276,12 +325,22 @@ export default function AdminPage() {
                       <p>{p.colour || <span className="slot">colour not written yet</span>}</p>
                       <p className="product-meta">
                         <span>{money(p.price) ?? <span className="slot">price not set</span>}</span>
-                        <span>{p.count === null ? <span className="slot">count not set</span> : `${p.count} in stock`}</span>
-                        <span>{p.collection === "baits" ? "Baits" : "Merch"}</span>
+                        <span>{p.collections.map((id) => collections.find((c) => c.id === id)?.name ?? id).join(", ") || <span className="slot">no collection</span>}</span>
                       </p>
+                      <div className="stock-row">
+                        <span className="tiny-label">In stock</span>
+                        <div className="qty">
+                          <button onClick={() => bump(p, -1)} aria-label={`One fewer ${p.shape}`}>&minus;</button>
+                          <span>{p.count ?? 0}</span>
+                          <button onClick={() => bump(p, 1)} aria-label={`One more ${p.shape}`}>+</button>
+                        </div>
+                        <button className="link" onClick={() => bump(p, 12)}>+12</button>
+                        {p.count === null && <span className="slot">count not set</span>}
+                      </div>
                       <div className="product-actions">
                         <button className="link" onClick={() => togglePublished(p)}>{p.published ? "Unpublish" : "Publish"}</button>
                         <button className="link" onClick={() => startEdit(p)}>Edit</button>
+                        <a className="link" href={`/product/${p.id}`} target="_blank" rel="noreferrer">View page</a>
                         <button className="link danger" onClick={() => remove(p)}>Remove</button>
                       </div>
                     </div>
@@ -291,11 +350,46 @@ export default function AdminPage() {
             </>
           )}
 
+          {view === "collections" && (
+            <>
+              <header className="admin-head">
+                <h1>Collections</h1>
+                <p>Collections sort your products. Turn a page on and that collection gets its own page on the site. Turn it off and it still sorts your products, it just does not get a page.</p>
+              </header>
+
+              <div className="add-collection">
+                <label>New collection<input value={newCollection} onChange={(e) => setNewCollection(e.target.value)} placeholder="Watermelon red" /></label>
+                <button className="button" onClick={addCollection}>Add</button>
+              </div>
+
+              <div className="table">
+                {collections.map((c) => {
+                  const count = products.filter((p) => p.collections.includes(c.id)).length;
+                  return (
+                    <article className="row" key={c.id}>
+                      <div className="row-main">
+                        <p className="row-top"><strong>{c.name}</strong><span>{count} {count === 1 ? "product" : "products"}</span></p>
+                        <p className="row-address">{c.ownPage ? `Has its own page at /collection/${c.slug}` : "Sorts products only, no page"}</p>
+                      </div>
+                      <div className="row-side">
+                        <label className="check"><input type="checkbox" checked={c.ownPage} onChange={() => toggleOwnPage(c)} /> Give this collection its own page</label>
+                        <div className="product-actions">
+                          {c.ownPage && <a className="link" href={`/collection/${c.slug}`} target="_blank" rel="noreferrer">View page</a>}
+                          <button className="link danger" onClick={() => removeCollection(c)}>Delete</button>
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </>
+          )}
+
           {view === "inventory" && (
             <>
               <header className="admin-head">
                 <h1>Inventory</h1>
-                <p>Counts per product. Change a number and it saves.</p>
+                <p>Every product and its count in one list. You can also adjust a count on the product itself.</p>
               </header>
               <div className="table">
                 {products.map((p) => (

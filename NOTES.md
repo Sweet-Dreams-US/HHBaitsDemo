@@ -39,9 +39,14 @@ Fonts swapped for faces with character (slab, mono, marker). Every sentence of o
 
 Second look: the media was too large. The hand reveal is now a porthole instead of the whole stage, the shape photographs are inset at about half width and alternate sides with tub white around them, and the shirt is inset. Every photograph now has air around it.
 
+## Third look
+
+Merch became its own numbered section rather than a sentence, built like the baits with the shirt as a real product. Collections became a thing she manages: add one, decide whether it gets its own page, and put a product in as many as she likes. Every product now has its own page with suggested items and a browse row, and stock is adjusted on the product itself with a stepper rather than only on a separate screen.
+
 ## Unsure about
 
 - The three shapes are described from what is visible in her photographs (stick worm, ribbon tail worm, creature bait). They are descriptions, not her product names. If she calls them something else the admin panel renames them in a minute.
 - "Silver flake" is described because it is visibly in the 18409 photo. If it is actually a different flake she corrects the colour line in admin.
 - The mobile wordmark is width bound, so the letters sit smaller on a phone than on desktop and the beats live above and below. A rotated or three line treatment would make them bigger but would make her name harder to read on the first screen, so upright was kept.
-- The merch line is shown once, honestly, with her quote. If she confirms it is a line, it becomes a second collection in admin, which already exists as an option.
+- Merch ships with the one shirt she photographed and three empty slots. Sizes are a labelled slot because she never gave any.
+- Green pumpkin is seeded as a collection because it is the one colour in her photographs. If she names her colours differently she renames it in the panel.

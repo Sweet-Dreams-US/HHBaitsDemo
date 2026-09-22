@@ -131,6 +131,10 @@ section { padding: 56px 0; }
 }
 .strip-name span { display: inline-block; font-family: var(--font-body); font-weight: 700; font-size: 14px; letter-spacing: 0.04em; color: var(--ink); background: var(--tub); padding: 2px 6px; -webkit-text-stroke: 0; text-shadow: none; margin-bottom: 8px; }
 .strip-name span::after { content: ""; display: block; }
+.strip-name a { text-decoration: none; }
+.strip-name a:hover { text-decoration: underline; text-underline-offset: 6px; }
+.item-body h3 a { text-decoration: none; }
+.item-body h3 a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .strip.ghost .strip-name { -webkit-text-stroke: 0; text-shadow: none; }
 .strip.ghost .strip-name .slot { font-size: 0.5em; line-height: 1.3; }
 .strip-meta { display: grid; gap: 10px; padding: 10px 0 0 12px; align-items: start; }
@@ -178,12 +182,49 @@ input:focus, textarea:focus, select:focus { border-color: var(--plastic-2); box-
 .done-actions { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-top: 8px; }
 .slip .done .link, .slip .done .index { color: var(--gold); }
 
-/* Shirts: one strip */
-.shirts { position: relative; padding: 56px 16px; background: var(--tub-blue); display: grid; gap: 24px; }
-.shirt-photo { position: relative; height: 70vw; max-height: 420px; max-width: 420px; }
-.shirt-photo img { object-fit: cover; object-position: center 38%; }
-.shirt-copy { display: grid; gap: 10px; }
-.shirt-quote { font-family: var(--font-display); font-size: clamp(22px, 5.4vw, 40px); line-height: 1.08; max-width: 22ch; }
+/* Merch: its own collection, same bones as the baits */
+.merch { background: var(--tub-blue); padding: 56px 0; }
+.merch-quote { padding: 0 16px 32px; font-family: var(--font-display); font-size: clamp(22px, 4.6vw, 36px); line-height: 1.08; max-width: 24ch; }
+.merch-grid { display: grid; gap: 32px; padding: 0 16px; }
+.item { display: grid; gap: 16px; align-content: start; }
+.item-photo { position: relative; height: 78vw; max-height: 420px; background: var(--mould); }
+.item-photo img { object-fit: cover; object-position: center 38%; }
+.item.ghost .item-photo { height: 46vw; max-height: 260px; background: repeating-linear-gradient(135deg, var(--mould) 0 10px, var(--tub-blue) 10px 22px); }
+.item-body { display: grid; gap: 8px; align-content: start; }
+.item-colour { color: var(--ink-soft); font-size: 15px; }
+.item-line { display: flex; align-items: baseline; gap: 8px; font-size: 15px; padding: 2px 0; }
+.item-line .leader { flex: 1 1 auto; border-bottom: 2px dotted rgba(29, 31, 22, 0.3); transform: translateY(-4px); min-width: 20px; }
+.item-actions { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; margin-top: 6px; }
+.item .fine { font-size: 13px; }
+
+/* Product and collection pages */
+.product-page { min-height: 100svh; background: var(--tub); }
+.product-wrap { display: grid; gap: 32px; padding: 32px 16px 64px; }
+.crumbs { display: flex; flex-wrap: wrap; gap: 8px 10px; font-size: 14px; color: var(--ink-soft); }
+.crumbs a { text-underline-offset: 3px; }
+.crumbs > *:not(:last-child)::after { content: " /"; }
+.product-main { display: grid; gap: 28px; }
+.hero-photo { position: relative; background: var(--mould); display: grid; place-items: center; height: 74vw; max-height: 460px; overflow: hidden; }
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+.product-body { display: grid; gap: 12px; align-content: start; }
+.product-body h1 { font-family: var(--font-display); font-size: clamp(30px, 7vw, 52px); line-height: 1.02; }
+.product-colour { color: var(--ink-soft); }
+.product-body .button { justify-self: start; margin-top: 10px; }
+.product-body .link { justify-self: start; }
+.product-tags { margin-top: 18px; display: grid; gap: 10px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.tag { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1.5px solid var(--ink); font-size: 14px; font-weight: 700; text-decoration: none; }
+.tag:hover { background: var(--ink); color: var(--tub); }
+.tag.flat { border-style: dashed; font-weight: 400; }
+.also { display: grid; gap: 16px; padding-top: 28px; border-top: 1px solid var(--line); }
+.also-grid { display: grid; gap: 24px; }
+.also-item { display: grid; gap: 8px; text-decoration: none; }
+.also-photo { position: relative; height: 52vw; max-height: 260px; background: var(--mould); overflow: hidden; }
+.also-photo img { width: 100%; height: 100%; object-fit: cover; }
+.also-item h3 { font-size: 18px; }
+.also-item p { font-size: 14px; color: var(--ink-soft); }
+.also-price { font-weight: 700; color: var(--ink) !important; }
+.collection-title { font-family: var(--font-display); font-size: clamp(40px, 10vw, 84px); line-height: 0.95; }
 
 /* Footer with questions */
 footer { display: grid; gap: 28px; padding: 48px 16px 56px; background: var(--ink); color: var(--tub); }
@@ -274,7 +315,13 @@ footer nav a { display: inline-flex; align-items: center; min-height: 44px; font
 .product-body p { color: var(--ink-soft); }
 .product-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 15px; }
 .product-actions { display: flex; flex-wrap: wrap; gap: 4px 18px; }
-.product-actions .link { padding: 8px 0; min-height: 44px; }
+.product-actions .link { padding: 8px 0; min-height: 44px; text-decoration: underline; }
+.stock-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 6px; }
+.stock-row .qty { border-color: var(--line); }
+.collection-pick { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0; padding: 14px; border: 1px solid var(--line); }
+.collection-pick legend { font-weight: 700; font-size: 14px; padding: 0 6px; }
+.add-collection { display: grid; gap: 14px; align-items: end; margin-bottom: 26px; }
+.add-collection .button { justify-self: start; }
 
 /* ---------- Wider ---------- */
 @media (min-width: 700px) {
@@ -298,8 +345,19 @@ footer nav a { display: inline-flex; align-items: center; min-height: 44px; font
   .strip.ghost .strip-photo { height: 18vw; max-height: 200px; }
   .slip-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; padding: 0 40px; }
   .slip-paper { padding: 28px 28px 34px; }
-  .shirts { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; gap: 56px; padding: 96px 40px; }
-  .shirt-photo { height: 34vw; max-height: 460px; max-width: none; }
+  .merch { padding: 96px 0; }
+  .merch-quote { padding: 0 40px 48px; }
+  .merch-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px 40px; padding: 0 40px; }
+  .product-wrap { padding: 40px 40px 96px; max-width: 1100px; gap: 48px; }
+  .product-main { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 48px; align-items: start; }
+  .hero-photo { height: 34vw; max-height: 520px; }
+  .also-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .also-grid.wide { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .also-photo { height: 16vw; max-height: 220px; }
+  .add-collection { grid-template-columns: minmax(0, 320px) auto; }
+  .item { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 24px; align-items: start; }
+  .item-photo { height: 26vw; max-height: 360px; }
+  .item.ghost .item-photo { height: 16vw; max-height: 220px; }
   footer { padding: 64px 40px 56px; }
   .foot-row { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 64px; justify-content: space-between; }
   .admin-shell { grid-template-columns: 240px 1fr; min-height: calc(100svh - var(--bar)); }
@@ -319,7 +377,9 @@ footer nav a { display: inline-flex; align-items: center; min-height: 44px; font
   .strips { padding: 0 64px 120px; gap: 96px; }
   .strip-photo { height: 30vw; max-height: 460px; }
   .slip-body { padding: 0 64px; gap: 80px; }
-  .shirts { padding: 120px 64px; }
+  .merch { padding: 120px 0; }
+  .merch-quote { padding: 0 64px 56px; }
+  .merch-grid { padding: 0 64px; gap: 72px 56px; }
   footer { padding: 72px 64px 64px; }
   .admin-main { padding: 48px 64px 96px; max-width: 1100px; }
 }

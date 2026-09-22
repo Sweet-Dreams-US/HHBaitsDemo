@@ -42,7 +42,7 @@ Scale: h2 clamp(44px, 9vw, 96px), shape names clamp(38px, 11vw, 120px), beat quo
    - 04, ships from here. Bag and checkout.
 3. Baits. Tubs seen from above: her plastic in one circle, five empty tubs beside it. Then each shape as an inset photograph at about half width, alternating sides, with the shape name set half on, half off the photo, colour line, price slot, add to bag. One empty strip for the next shape. Industry pattern: shape then colour is the unit of sale.
 4. Checkout. A packing slip in the mono face with dotted leaders (from, order number, bag lines, items, shipping, payment as slots) beside a ship to form. A sample order lands in the admin panel.
-5. Shirts. Her shirt photo as a strip with her line about merch and one labelled empty slot. The bass art is marked as the shirt's print, not the logo.
+5. Merch. Its own numbered section built like Baits, because she says she sells these. The shirt is a real product with add to bag, a size line left as a slot, and three empty item slots beside it. The bass art is marked as the shirt's print, not the logo.
 6. Footer. Name set as type with a labelled empty logo slot, a questions form that lands in the admin panel. No address, phone, hours, social.
 
 Our copy is section names and slot markers only. Nothing on the page names the owner and nothing explains the metaphor.
@@ -65,12 +65,19 @@ Higgsfield: not used. DIRECTION.md says it is close to unnecessary here and that
 
 Written first at 375. The stage is 100svh, the wordmark stacks on two lines and is width bound, so the letters sit smaller than on desktop and the beats live above and below them. The hand reveal covers the full stage. Swatches go two up, shapes one up, checkout stacks bag over form, the drawer is full width. Body never exceeds 100vw, `overflow-x: clip` so sticky still works. Checked at 320, 375, 390 and 430 with no horizontal scroll. Reduced motion: no pin, letters drawn already full, the hand shown as a plain figure below.
 
+## Product and collection pages
+
+- `/product/[id]` for every product, hers or one she adds: photo, colour, price, stock, size line for merch, add to bag, the collections it sits in, suggested items from those same collections, and a browse row.
+- `/collection/[slug]` for any collection with its page turned on, listing everything published in it plus the other collections.
+- Both read the same local store the admin writes, so a product she adds in the panel has a working page immediately.
+
 ## Admin panel, for this owner
 
 Cole promised on the call: see all orders, see anyone who contacted her, add or update products, collections and inventory without him. Built as the real product entry:
 
 - Orders. Sample rows plus any sample order placed on the site. Status new, packed, shipped. A labelled empty slot for the shipping label.
 - Contacts. Sample row plus anything from the ask form.
-- Products. Shape or name, colour, price, count, collection (baits or merch), published toggle, photo from her phone (file input with preview). Published items appear on the site immediately. The three real items ship with price and count empty.
-- Inventory. Counts per product.
+- Products. Shape or name, colour, price, count, collections (checkboxes, a product can sit in several), published toggle, photo from her phone (file input with preview). Each row has a plus and minus stepper and a plus twelve for a fresh batch, so stock is adjusted on the product itself. Published items appear on the site immediately. The real items ship with price and count empty.
+- Collections. Add, delete, and a toggle per collection for whether it gets its own page. Off still sorts products, it just does not publish a page. Seeded with Baits, Merch and Green pumpkin.
+- Inventory. The same counts in one list for a stock take.
 - One Enter button, no passcode. Reset demo button. Everything in localStorage, nothing sent.

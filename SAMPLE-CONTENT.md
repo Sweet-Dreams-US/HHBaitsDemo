@@ -15,7 +15,7 @@ Everything on the public page is either her own photograph, her own words, or a 
 - The three items in the shop, stick worm, ribbon tail worm and creature bait, are what is visibly in her photographs, described, not named.
 - The two quotes are hers, from the call and her text.
 
-## Labelled empty slots, 14 on the public page
+## Labelled empty slots, 17 on the public page
 
 These say what they are waiting for, in the handwritten marker, and are not sample content.
 
@@ -25,7 +25,7 @@ These say what they are waiting for, in the handwritten marker, and are not samp
 10. Items on the packing slip, prices to be set.
 11. Shipping on the packing slip, rate to be set.
 12. Payment on the packing slip, to be set up.
-13. Shirts, to be added.
-14. Logo in the footer, to come, the name set as type until then.
+13 to 16. Merch: a size line on the shirt, plus hoodie, hat and next item slots.
+17. Logo in the footer, to come, the name set as type until then.
 
 The admin panel carries more of the same marker: the shipping label on each order, price not set and count not set on each product, and no photo yet or colour not written yet on anything she adds half filled.
