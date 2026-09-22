@@ -42,7 +42,7 @@ Scale: h2 clamp(44px, 9vw, 96px), shape names clamp(38px, 11vw, 120px), beat quo
    - 04, ships from here. Bag and checkout.
 3. Baits. Tubs seen from above: her plastic in one circle, five empty tubs beside it. Then each shape as an inset photograph at about half width, alternating sides, with the shape name set half on, half off the photo, colour line, price slot, add to bag. One empty strip for the next shape. Industry pattern: shape then colour is the unit of sale.
 4. Checkout. A packing slip in the mono face with dotted leaders (from, order number, bag lines, items, shipping, payment as slots) beside a ship to form. A sample order lands in the admin panel.
-5. Merch. Its own numbered section built like Baits, because she says she sells these. The shirt is a real product with add to bag, a size line left as a slot, and three empty item slots beside it. The bass art is marked as the shirt's print, not the logo.
+5. Apparel. Its own numbered section built like Baits, because she says she sells these. The shirt is a real product with add to bag, a size line left as a slot, and three empty item slots beside it. The bass art is marked as the shirt's print, not the logo.
 6. Footer. Name set as type with a labelled empty logo slot, a questions form that lands in the admin panel. No address, phone, hours, social.
 
 Our copy is section names and slot markers only. Nothing on the page names the owner and nothing explains the metaphor.
@@ -77,7 +77,8 @@ Cole promised on the call: see all orders, see anyone who contacted her, add or 
 
 - Orders. Sample rows plus any sample order placed on the site. Status new, packed, shipped. A labelled empty slot for the shipping label.
 - Contacts. Sample row plus anything from the ask form.
-- Products. Shape or name, colour, price, count, collections (checkboxes, a product can sit in several), published toggle, photo from her phone (file input with preview). Each row has a plus and minus stepper and a plus twelve for a fresh batch, so stock is adjusted on the product itself. Published items appear on the site immediately. The real items ship with price and count empty.
-- Collections. Add, delete, and a toggle per collection for whether it gets its own page. Off still sorts products, it just does not publish a page. Seeded with Baits, Merch and Green pumpkin.
-- Inventory. The same counts in one list for a stock take.
+- Baits. Shape or name, colour, price, count, collections (checkboxes, a product can sit in several), published toggle, photo from her phone (file input with preview). Each row has a plus and minus stepper and a plus twelve for a fresh batch, so stock is adjusted on the product itself. Published items appear on the site immediately. The real items ship with price and count empty.
+- Apparel. The same form plus the sizes she stocks, typed the way she says them. Those become selectable size chips on the product page. Apparel is kept out of the Baits tab so neither list is a pile.
+- Collections. Add, delete, and a toggle per collection for whether it gets its own page. Off still sorts products, it just does not publish a page. Seeded with Baits, Apparel and Green pumpkin.
+- There is no inventory page. Stock is a number on the product, where she is already standing when it changes.
 - One Enter button, no passcode. Reset demo button. Everything in localStorage, nothing sent.

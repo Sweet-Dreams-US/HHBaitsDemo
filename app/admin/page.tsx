@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { Collection, Contact, Order, Product, money, slugify, store, when } from "../lib/store";
+import { APPAREL, Collection, Contact, Order, Product, money, slugify, store, when } from "../lib/store";
 
-type View = "orders" | "contacts" | "products" | "collections" | "inventory";
+type View = "orders" | "contacts" | "products" | "apparel" | "collections";
 
 const blank: Omit<Product, "id"> = {
   shape: "",
@@ -13,6 +13,7 @@ const blank: Omit<Product, "id"> = {
   price: null,
   count: null,
   collections: ["baits"],
+  sizes: "",
   published: false,
   real: true,
 };
@@ -89,10 +90,10 @@ export default function AdminPage() {
     saveProducts(products.map((x) => (x.id === p.id ? { ...x, count: next } : x)));
   }
 
-  function startNew() {
+  function startNew(collectionId = "baits") {
     setEditing(null);
-    setDraft(blank);
-    setView("products");
+    setDraft({ ...blank, collections: [collectionId] });
+    setView(collectionId === APPAREL ? "apparel" : "products");
     window.setTimeout(() => document.getElementById("product-form")?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
   }
 
@@ -190,18 +191,25 @@ export default function AdminPage() {
               [
                 ["orders", "Orders"],
                 ["contacts", "Contacts"],
-                ["products", "Products"],
+                ["products", "Baits"],
+                ["apparel", "Apparel"],
                 ["collections", "Collections"],
-                ["inventory", "Inventory"],
               ] as [View, string][]
             ).map(([key, label]) => (
-              <button key={key} className={view === key ? "active" : ""} onClick={() => setView(key)}>
+              <button
+                key={key}
+                className={view === key ? "active" : ""}
+                onClick={() => {
+                  setView(key);
+                  if (!editing) setDraft({ ...blank, collections: [key === "apparel" ? APPAREL : "baits"] });
+                }}
+              >
                 {label}
                 {key === "orders" && newOrders > 0 && <b className="badge" aria-label={`${newOrders} new`}>{newOrders}</b>}
               </button>
             ))}
           </nav>
-          <button className="side-new" onClick={startNew}>+ Add a product</button>
+          <button className="side-new" onClick={() => startNew(view === "apparel" ? APPAREL : "baits")}>+ Add {view === "apparel" ? "apparel" : "a bait"}</button>
           <button className="side-reset" onClick={resetDemo}>Reset demo</button>
         </aside>
 
@@ -272,18 +280,25 @@ export default function AdminPage() {
             </>
           )}
 
-          {view === "products" && (
+          {(view === "products" || view === "apparel") && (
             <>
               <header className="admin-head">
-                <h1>Products</h1>
-                <p>A product is a shape in a colour with a photo. Name it, price it, add the photo, set the count, publish. It shows on the site the moment it is published.</p>
+                <h1>{view === "apparel" ? "Apparel" : "Baits"}</h1>
+                <p>
+                  {view === "apparel"
+                    ? "Shirts and anything else you print. Same as a bait, plus the sizes you stock. Type them the way you say them, separated by commas."
+                    : "A bait is a shape in a colour with a photo. Name it, price it, add the photo, set the count, publish. It shows on the site the moment it is published."}
+                </p>
               </header>
 
               <form className="product-form" id="product-form" onSubmit={submitProduct}>
-                <p className="index">{editing ? `Editing ${editing.shape}` : "Add a product"}</p>
+                <p className="index">{editing ? `Editing ${editing.shape}` : view === "apparel" ? "Add apparel" : "Add a bait"}</p>
                 <div className="form-grid">
                   <label>Shape or name<input value={draft.shape} onChange={(e) => setDraft({ ...draft, shape: e.target.value })} placeholder="Stick worm" required /></label>
-                  <label>Colour<input value={draft.colour} onChange={(e) => setDraft({ ...draft, colour: e.target.value })} placeholder="Green pumpkin, gold and red flake" /></label>
+                  <label>Colour<input value={draft.colour} onChange={(e) => setDraft({ ...draft, colour: e.target.value })} placeholder={view === "apparel" ? "Yellow" : "Green pumpkin, gold and red flake"} /></label>
+                  {draft.collections.includes(APPAREL) && (
+                    <label>Sizes<input value={draft.sizes} onChange={(e) => setDraft({ ...draft, sizes: e.target.value })} placeholder="S, M, L, XL" /></label>
+                  )}
                   <label>Price<input type="number" inputMode="decimal" step="0.01" min="0" value={draft.price ?? ""} onChange={(e) => setDraft({ ...draft, price: e.target.value === "" ? null : Number(e.target.value) })} placeholder="Not set" /></label>
                   <label>Count in stock<input type="number" inputMode="numeric" min="0" step="1" value={draft.count ?? ""} onChange={(e) => setDraft({ ...draft, count: e.target.value === "" ? null : Number(e.target.value) })} placeholder="Not set" /></label>
                   <fieldset className="collection-pick">
@@ -304,13 +319,15 @@ export default function AdminPage() {
                   </label>
                 </div>
                 <div className="form-actions">
-                  <button className="button" type="submit">{editing ? "Save" : "Add product"}</button>
+                  <button className="button" type="submit">{editing ? "Save" : view === "apparel" ? "Add apparel" : "Add bait"}</button>
                   {editing && <button type="button" className="link" onClick={() => { setEditing(null); setDraft(blank); }}>Cancel</button>}
                 </div>
               </form>
 
               <div className="product-list">
-                {products.map((p) => (
+                {products
+                  .filter((p) => (view === "apparel" ? p.collections.includes(APPAREL) : !p.collections.includes(APPAREL)))
+                  .map((p) => (
                   <article className={`product ${p.published ? "" : "off"}`} key={p.id}>
                     <div className="product-photo">
                       {p.photo ? (
@@ -337,6 +354,9 @@ export default function AdminPage() {
                         <button className="link" onClick={() => bump(p, 12)}>+12</button>
                         {p.count === null && <span className="slot">count not set</span>}
                       </div>
+                      {p.collections.includes(APPAREL) && (
+                        <p className="product-meta"><span>Sizes</span><span>{p.sizes || <span className="slot">to be set</span>}</span></p>
+                      )}
                       <div className="product-actions">
                         <button className="link" onClick={() => togglePublished(p)}>{p.published ? "Unpublish" : "Publish"}</button>
                         <button className="link" onClick={() => startEdit(p)}>Edit</button>
@@ -385,29 +405,6 @@ export default function AdminPage() {
             </>
           )}
 
-          {view === "inventory" && (
-            <>
-              <header className="admin-head">
-                <h1>Inventory</h1>
-                <p>Every product and its count in one list. You can also adjust a count on the product itself.</p>
-              </header>
-              <div className="table">
-                {products.map((p) => (
-                  <article className="row inv" key={p.id}>
-                    <div className="row-main">
-                      <p className="row-top"><strong>{p.shape}</strong><span>{p.colour}</span></p>
-                    </div>
-                    <div className="row-side">
-                      <label className="select">
-                        In stock
-                        <input type="number" inputMode="numeric" min="0" step="1" value={p.count ?? ""} placeholder="Not set" onChange={(e) => setCount(p, e.target.value === "" ? null : Number(e.target.value))} />
-                      </label>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </>
-          )}
         </section>
       </div>
     </main>

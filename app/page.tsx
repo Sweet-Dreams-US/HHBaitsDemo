@@ -222,11 +222,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 05, merch. Built the same way as the baits, because she sells these too. */}
-      <section className="merch" id="merch">
+      {/* 05, apparel. Built the same way as the baits, because she sells these too. */}
+      <section className="merch" id="apparel">
         <div className="section-head">
           <p className="index">05</p>
-          <h2>Merch</h2>
+          <h2>Apparel</h2>
         </div>
 
         <p className="merch-quote">&ldquo;Also we sell tshirts and merchandise with our logo.&rdquo;</p>
@@ -240,7 +240,10 @@ export default function Home() {
               <div className="item-body">
                 <h3><Link href={`/product/${p.id}`}>{p.shape}</Link></h3>
                 <p className="item-colour">{p.colour}</p>
-                <p className="item-line"><span>Size</span><span className="leader" /><Slot>sizes to be set</Slot></p>
+                <p className="item-line">
+                  <span>Size</span><span className="leader" />
+                  {p.sizes ? <span>{p.sizes}</span> : <Slot>sizes to be set</Slot>}
+                </p>
                 <p className="item-line"><span>Price</span><span className="leader" />{p.price !== null ? <span>${p.price.toFixed(2)}</span> : <Slot>to be set</Slot>}</p>
                 <div className="item-actions">
                   <button className="add" onClick={() => add(p.id)}>Add to bag</button>
@@ -301,7 +304,7 @@ export default function Home() {
         </div>
         <nav aria-label="Footer">
           <a href="#colour">Baits</a>
-          <a href="#merch">Merch</a>
+          <a href="#apparel">Apparel</a>
           <a href="#ships">Checkout</a>
           <a href="#ask">Questions</a>
           <Link href="/admin">Admin</Link>

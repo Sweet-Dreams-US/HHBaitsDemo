@@ -43,10 +43,14 @@ Second look: the media was too large. The hand reveal is now a porthole instead 
 
 Merch became its own numbered section rather than a sentence, built like the baits with the shirt as a real product. Collections became a thing she manages: add one, decide whether it gets its own page, and put a product in as many as she likes. Every product now has its own page with suggested items and a browse row, and stock is adjusted on the product itself with a stepper rather than only on a separate screen.
 
+## Fourth look
+
+Apparel is its own admin tab with its own add form and a sizes field, and the public section is named Apparel rather than Merch. Inventory is no longer a page: stock is adjusted on the product itself.
+
 ## Unsure about
 
 - The three shapes are described from what is visible in her photographs (stick worm, ribbon tail worm, creature bait). They are descriptions, not her product names. If she calls them something else the admin panel renames them in a minute.
 - "Silver flake" is described because it is visibly in the 18409 photo. If it is actually a different flake she corrects the colour line in admin.
 - The mobile wordmark is width bound, so the letters sit smaller on a phone than on desktop and the beats live above and below. A rotated or three line treatment would make them bigger but would make her name harder to read on the first screen, so upright was kept.
-- Merch ships with the one shirt she photographed and three empty slots. Sizes are a labelled slot because she never gave any.
+- Apparel ships with the one shirt she photographed and three empty slots. Sizes stay a labelled slot until she types hers, because none were ever given. The collection is named Apparel while her own word, merchandise, stays in the quote that heads the section.
 - Green pumpkin is seeded as a collection because it is the one colour in her photographs. If she names her colours differently she renames it in the panel.

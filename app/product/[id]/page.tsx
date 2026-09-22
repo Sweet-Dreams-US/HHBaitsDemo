@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CartLine, Collection, Product, store } from "../../lib/store";
+import { APPAREL, CartLine, Collection, Product, store } from "../../lib/store";
 
 export default function ProductPage() {
   const params = useParams<{ id: string }>();
@@ -11,6 +11,7 @@ export default function ProductPage() {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [ready, setReady] = useState(false);
   const [added, setAdded] = useState(false);
+  const [chosen, setChosen] = useState<string | null>(null);
 
   useEffect(() => {
     setProducts(store.products());
@@ -84,8 +85,26 @@ export default function ProductPage() {
               <span>In stock</span><span className="leader" />
               {product.count === null ? <span className="slot">count to be set</span> : <span>{product.count > 0 ? `${product.count} ready to ship` : "Sold out"}</span>}
             </p>
-            {product.collections.includes("merch") && (
-              <p className="item-line"><span>Size</span><span className="leader" /><span className="slot">sizes to be set</span></p>
+            {product.collections.includes(APPAREL) && (
+              product.sizes ? (
+                <div className="size-pick">
+                  <p className="slip-title">Size</p>
+                  <div className="tag-row">
+                    {product.sizes.split(",").map((size) => size.trim()).filter(Boolean).map((size) => (
+                      <button
+                        type="button"
+                        className={`tag${chosen === size ? " on" : ""}`}
+                        key={size}
+                        onClick={() => setChosen(size)}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p className="item-line"><span>Size</span><span className="leader" /><span className="slot">sizes to be set</span></p>
+              )
             )}
 
             <button className="button" onClick={add} disabled={product.count === 0}>

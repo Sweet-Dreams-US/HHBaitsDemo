@@ -9,6 +9,7 @@ export type Product = {
   price: number | null; // null until she sets it. No dollar figure was ever said.
   count: number | null; // null until she sets it
   collections: string[]; // collection ids. A product can sit in more than one.
+  sizes: string; // apparel only, comma separated. Empty until she types hers.
   published: boolean;
   real: boolean; // true when the photograph is hers
 };
@@ -25,7 +26,7 @@ export type Collection = {
 
 export const realCollections: Collection[] = [
   { id: "baits", name: "Baits", slug: "baits", ownPage: true, blurb: "" },
-  { id: "merch", name: "Merch", slug: "merch", ownPage: true, blurb: "" },
+  { id: "merch", name: "Apparel", slug: "apparel", ownPage: true, blurb: "" },
   { id: "green-pumpkin", name: "Green pumpkin", slug: "green-pumpkin", ownPage: true, blurb: "" },
 ];
 
@@ -62,6 +63,7 @@ export const realProducts: Product[] = [
     price: null,
     count: null,
     collections: ["baits", "green-pumpkin"],
+    sizes: "",
     published: true,
     real: true,
   },
@@ -73,6 +75,7 @@ export const realProducts: Product[] = [
     price: null,
     count: null,
     collections: ["baits", "green-pumpkin"],
+    sizes: "",
     published: true,
     real: true,
   },
@@ -84,6 +87,7 @@ export const realProducts: Product[] = [
     price: null,
     count: null,
     collections: ["baits", "green-pumpkin"],
+    sizes: "",
     published: true,
     real: true,
   },
@@ -95,6 +99,7 @@ export const realProducts: Product[] = [
     price: null,
     count: null,
     collections: ["merch"],
+    sizes: "",
     published: true,
     real: true,
   },
@@ -182,8 +187,9 @@ type LegacyProduct = Product & { collection?: string };
 function migrate(list: Product[]): Product[] {
   return list.map((p) => {
     const legacy = p as LegacyProduct;
-    if (Array.isArray(p.collections)) return p;
-    return { ...p, collections: legacy.collection ? [legacy.collection] : [] };
+    const withSizes = { ...p, sizes: typeof p.sizes === "string" ? p.sizes : "" };
+    if (Array.isArray(p.collections)) return withSizes;
+    return { ...withSizes, collections: legacy.collection ? [legacy.collection] : [] };
   });
 }
 
@@ -212,6 +218,9 @@ export const store = {
 export function money(price: number | null) {
   return price === null ? null : `$${price.toFixed(2)}`;
 }
+
+// The apparel collection keeps its old id so nothing she saved breaks.
+export const APPAREL = "merch";
 
 export function slugify(name: string) {
   return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "collection";
